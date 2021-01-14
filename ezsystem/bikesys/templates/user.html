@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Bike System - Home</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    </head>
+
+    <body>
+        {% ifequal object.userClass "customer" %}
+        <!-- rent bike -->
+        <section>
+            <form action="{% url 'bikesys:rent' %}" method="post">
+                {% csrf_token %}
+                <h1>Rent</h1>
+                <h1 style="color: red;">{{notification1}}</h1>
+                <label for="bikeID1">Bike ID:</label>
+                <input id="bikeID1" type="text" name="bikeID1">
+                <input type="submit" value="Rent">
+                <input type="text" value="{{object.userId}}" hidden name="userID">
+            </form>
+        </section>
+        <hr />
+        <!-- return bike -->
+        <section>
+            <form action="{% url 'bikesys:back' %}" method="post">
+                {% csrf_token %}
+                <h1>Return bike</h1>
+                <h1 style="color: red;">{{notification2}}</h1>
+                <label for="bikeID2">Bike ID:</label>
+                <input id="bikeID2" type="text" name="bikeID2">
+                <label for="loc">Location:</label>
+                <input id="loc" type="text" name="loc">
+                <input type="submit" value="Back">
+                <input type="text" value="{{object.userId}}" hidden name="userID">
+            </form>
+        </section>
+        <hr />
+        <!-- repair bike -->
+        <section>
+            <form action="{% url 'bikesys:sRepair' %}" method="post">
+                {% csrf_token %}
+                <h1>Ask operator to repair Bike</h1>
+                <h1 style="color: red;">{{notification3}}</h1>
+                <label for="bikeID3">Bike ID:</label>
+                <input id="bikeID3" type="text" name="bikeID3">
+                <input type="submit" value="Submit">
+                <input type="text" value="{{object.userId}}" hidden name="userID">
+            </form>
+        </section>
+        {% endifequal %}
+        {% ifequal object.userClass "operator" %}
+        <!-- list all bikes location -->
+        <section>
+            <a href="{% url 'bikesys:bikeOps' %}">Watch bikes location</a>
+            <br/>
+            <a href="{% url 'bikesys:bikeOps' %}">Balance different place bikes</a>
+            <section>
+                <form action="{% url 'bikesys:repair' %}" method="post">
+                    {% csrf_token %}
+                    <h1>Repair bikes which need repair</h1>
+                    <h1 style="color: red;">{{notification4}}</h1>
+                    <label for="bikeID4">Bike ID:</label>
+                    <input id="bikeID4" type="text" name="bikeID4">
+                    <input type="submit" value="Repair">
+                    <input type="text" value="{{object.userId}}" hidden name="userID">
+                </form>
+            </section>
+        </section>
+        {% endifequal %}
+        {% ifequal object.userClass "manager" %}
+        <section>
+            <a href="{% url 'bikesys:visual' %}">Watch bikes data reports</a>
+        </section>
+        {% endifequal %}
+    </body>
+
+</html>

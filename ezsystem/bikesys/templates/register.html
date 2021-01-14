@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Bike System - Register</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    </head>
+
+    <body class="bg">
+        <form action="{% url 'bikesys:rVerify' %}" method="post">
+            {% csrf_token %}
+        <section class="centerC fullscreen">
+            <h1>Sharing Bike System Register</h1>
+            <h1 style="color: red;">{{notification}}</h1>
+            <section class="centerR paddingAll">
+                <label for="username" >Username:</label>
+                <input id="username" type="text" class="textInput" name="username">
+            </section>
+            <section class="centerR paddingAll">
+                <label for="pwd" >Password:</label>
+                <input id="pwd" type="password" class="textInput" name="pwd">
+            </section>
+            <section class="centerR paddingAll">
+                <label for="cls" >User Class:</label>
+                <input id="cls" type="text" class="textInput" name="cls">
+            </section>
+            <section class="centerR paddingAll">
+                <input type="submit" value="Register" class="btn">
+                <button class="btn"><a class="noUnderLine" href="{% url 'bikesys:login' %}">Login</a></button>
+            </section>
+        </section>
+    </form>
+    </body>
+
+</html>

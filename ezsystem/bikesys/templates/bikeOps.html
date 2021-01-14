@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Bike System - Home</title>
+    </head>
+
+    <body>
+        <!-- bikes location -->
+        <section>
+            <h1>Watch bikes location</h1>
+            {% if bikeList %}
+            <ul>
+                {% for i,v in bikeList.items %}
+                <li>{{i}},{{v}}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No bikes.</p>
+            {% endif %}
+        </section>
+        <hr/>
+        <!-- balance bikes -->
+        <section>
+            <h1>Balance different place bikes</h1>
+            {{balanceRst}}
+        </section>
+        <hr/>
+        <!-- repair bikes -->
+        <section>
+            <h1>Bike need repair</h1>
+            {% if bikeList2 %}
+            <ul>
+                {% for b in bikeList2 %}
+                <li>{{b}}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No bikes.</p>
+            {% endif %}
+        </section>
+    </body>
+
+</html>
