@@ -1,1 +1,1 @@
-web: gunicorn ezsystem.wsgi
+web: gunicorn ezsystem/ezsystem.wsgi --log-file -
