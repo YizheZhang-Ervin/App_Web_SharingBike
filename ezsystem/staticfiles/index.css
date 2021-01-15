@@ -1,0 +1,52 @@
+.bg{
+    background-image: url('bikebg.jpg');
+    background-size: cover;
+}
+
+.centerC{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.centerR{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.fullscreen{
+    width:100vw;
+    height:100vh;
+}
+
+.inlineDisplay{
+    display: inline;
+}
+
+.paddingAll{
+    padding: 10px;
+}
+
+.btn{
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 20%;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    width: 150px;
+}
+
+.textInput{
+    background-color: rgba(0,0,0,0.2);
+    color: white;
+    font-size: large;
+    font-weight: bold;
+}
+
+.noUnderLine{
+    text-decoration: none;
+    color: white;
+}
