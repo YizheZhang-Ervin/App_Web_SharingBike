@@ -125,3 +125,6 @@ elif DEBUG==False:
         BASE_DIR / "static",
         '/var/www/static/',
     ]
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
