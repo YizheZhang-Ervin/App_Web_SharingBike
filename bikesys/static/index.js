@@ -130,6 +130,9 @@ function displayNotification(rst){
     let notify = doc.getElementById("notification");
     if(typeof(rst) == "string"){
         notify.innerText = rst;
+        setTimeout(()=>{
+            notify.innerText = "";
+        },3500)
     }else{
         if(doc.getElementById("ul001")!=null){
             notify.removeChild(doc.getElementById("ul001"));
