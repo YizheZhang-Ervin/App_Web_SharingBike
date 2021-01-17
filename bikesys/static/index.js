@@ -1,5 +1,5 @@
 let doc = document;
-let normalpart = document.getElementById('normalpart')[0];
+let normalpart = document.getElementById('normalpart');
 let currentUser;
 
 function mgt(operation){
