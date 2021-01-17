@@ -6,91 +6,100 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+        <link rel="icon" href="{% static 'favicon.ico' %}">
         <title>SharingBike</title>
     </head>
 
-    <body>
-        <h1 id="notification" style="color: red;" class="center"></h1>
+    <body class="bgimg fullscreen">
+        <h1 id="notification" style="color: red;" class="center h25"></h1>
         <!-- login/register -->
         <div id="verifyNode">
-            <section class="center fullscreen vertical bigfont">
-                <h1>Sharing Bike System</h1>
-                <section>
-                    <label for="username">Username:</label>
-                    <input id="username" type="text" name="username">
+            <div class="center vertical">
+                <section class="center vertical bigfont card w60">
+                    <h1>Sharing Bike System</h1>
+                    <section>
+                        <label for="username">Username:</label>
+                        <input id="username" type="text" name="username" class="text">
+                    </section>
+                    <section>
+                        <label for="pwd">Password:</label>
+                        <input id="pwd" type="password" name="pwd" class="text">
+                    </section>
+                    <section>
+                        <label for="cls">User Class:</label>
+                        <input id="cls" type="radio" name="cls" value="customer" checked="true" class="text">Customer
+                        <input id="cls" type="radio" name="cls" value="operator" class="text">Operator
+                        <input id="cls" type="radio" name="cls" value="manager" class="text">Manager
+                    </section>
+                    <section>
+                        <input type="button" value="Login" class="btn" onclick="verify('login')">
+                        <input type="button" value="Register" class="btn" onclick="verify('register')">
+                    </section>
                 </section>
-                <section>
-                    <label for="pwd">Password:</label>
-                    <input id="pwd" type="password" name="pwd">
-                </section>
-                <section>
-                    <label for="cls">User Class:</label>
-                    <input id="cls" type="radio" name="cls" value="customer" checked="true">Customer
-                    <input id="cls" type="radio" name="cls" value="operator">Operator
-                    <input id="cls" type="radio" name="cls" value="manager">Manager
-                </section>
-                <section>
-                    <input type="button" value="Login" class="btn" onclick="verify('login')">
-                    <input type="button" value="Register" class="btn" onclick="verify('register')">
-                </section>
-            </section>
+            </div>
         </div>
         <div id="customerNode" class="notSee">
-            <section class="center fullscreen vertical">
-                <section>
-                    <h1>Rent Bike</h1>
-                    <label for="bikeid1">BikeID:</label>
-                    <input id="bikeid1" type="text" name="bikeid1">
-                    <input type="button" value="Rent" class="btn" onclick="cust('rent')">
-                    <hr />
+            <div class="center vertical">
+                <section class="bigfont card w80">
+                    <section>
+                        <h1>Rent Bike</h1>
+                        <label for="bikeid1">BikeID:</label>
+                        <input id="bikeid1" type="text" name="bikeid1" class="text">
+                        <input type="button" value="Rent" class="btn" onclick="cust('rent')">
+                        <hr />
+                    </section>
+                    <section>
+                        <h1>Return Bike</h1>
+                        <label for="bikeid2">BikeID:</label>
+                        <input id="bikeid2" type="text" name="bikeid2" class="text">
+                        <label for="loc">Location:</label>
+                        <input id="loc" type="text" name="loc" class="text">
+                        <input type="button" value="Back" class="btn" onclick="cust('back')">
+                        <hr />
+                    </section>
+                    <section>
+                        <h1>Report for Repair</h1>
+                        <label for="bikeid3">BikeID:</label>
+                        <input id="bikeid3" type="text" name="bikeid3" class="text">
+                        <input type="button" value="Report" class="btn" onclick="cust('report')">
+                        <hr />
+                    </section>
                 </section>
-                <section>
-                    <h1>Return Bike</h1>
-                    <label for="bikeid2">BikeID:</label>
-                    <input id="bikeid2" type="text" name="bikeid2">
-                    <label for="loc">Location:</label>
-                    <input id="loc" type="text" name="loc">
-                    <input type="button" value="Back" class="btn" onclick="cust('back')">
-                    <hr />
-                </section>
-                <section>
-                    <h1>Report for Repair</h1>
-                    <label for="bikeid3">BikeID:</label>
-                    <input id="bikeid3" type="text" name="bikeid3">
-                    <input type="button" value="Report" class="btn" onclick="cust('report')">
-                    <hr />
-                </section>
-            </section>
+            </div>
         </div>
         <div id="operatorNode" class="notSee">
-            <section class="center fullscreen vertical">
-                <section>
-                    <h1>Repair Bikes</h1>
-                    <label for="bikeid4">BikeID:</label>
-                    <input id="bikeid4" type="text" name="bikeid4">
-                    <input type="button" value="Repair" class="btn" onclick="oper('repair')">
-                    <hr />
+            <div class="center vertical">
+                <section class="bigfont card w80">
+                    <section>
+                        <h1>Repair Bikes</h1>
+                        <label for="bikeid4">BikeID:</label>
+                        <input id="bikeid4" type="text" name="bikeid4" class="text">
+                        <input type="button" value="Repair" class="btn" onclick="oper('repair')">
+                        <hr />
+                    </section>
+                    <section>
+                        <h1>Track Bikes</h1>
+                        <input type="button" value="Track" class="btn" onclick="oper('track')">
+                        <hr />
+                    </section>
+                    <section>
+                        <h1>Balance Bikes</h1>
+                        <input type="button" value="Balance" class="btn" onclick="oper('balance')">
+                        <hr />
+                    </section>
                 </section>
-                <section>
-                    <h1>Track Bikes</h1>
-                    <input type="button" value="Track" class="btn" onclick="oper('track')">
-                    <hr />
-                </section>
-                <section>
-                    <h1>Balance Bikes</h1>
-                    <input type="button" value="Balance" class="btn" onclick="oper('balance')">
-                    <hr />
-                </section>
-            </section>
+            </div>
         </div>
         <div id="managerNode" class="notSee">
-            <section class="center fullscreen vertical">
-                <section>
-                    <h1>Data Report</h1>
-                    <input type="button" value="Generate" class="btn" onclick="mgt('report')">
-                    <hr />
+            <div class="center vertical">
+                <section class="bigfont card w80">
+                    <section>
+                        <h1>Data Report</h1>
+                        <input type="button" value="Generate" class="btn" onclick="mgt('report')">
+                        <hr />
+                    </section>
                 </section>
-            </section>
+            </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>

@@ -18,7 +18,8 @@ class SharingBikeAnalysis:
             return pd.read_excel(f"static/{dataname}.xlsx")
         else:
             df =  pd.DataFrame(list(obj.objects.all().values()),columns=columns)
-            df.columns = ['recordID','bikeID',"bikeStartTime","bikeEndTime","bikeFromLoc","bikeToLoc"]
+            df.columns = ['recordID',"bikeStartTime","bikeEndTime","bikeFromLoc","bikeToLoc"]
+            df = df.dropna()
             return df
 
     def getCallSequence(self):

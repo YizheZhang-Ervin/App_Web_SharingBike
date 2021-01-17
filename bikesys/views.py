@@ -58,7 +58,7 @@ class OperApi(View):
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.defectStatus == False:
-                    rst = "Bike already repaired!"
+                    rst = "Error! Bike already repaired or Not need repair!"
                 else:
                     bObj.defectStatus = False
                     bObj.save()
@@ -70,15 +70,19 @@ class OperApi(View):
                 balanceRst = []
                 # 所有车位置
                 bikeList = Bike.objects.all()
+                if len(bikeList)==0:
+                    bikeRst.append("None")
                 for b in bikeList:
                     locID = b.curLocId.locId
                     locDesc = Location.objects.get(locId=locID).desc
-                    bikeRst.append([b.bikeId, locDesc])
+                    bikeRst.append(f" Bike {b.bikeId} at Location {locDesc}")
                 # 所有待修的车
                 bikeList2 = Bike.objects.filter(defectStatus=True)
+                if len(bikeList2)==0:
+                    bikeRst2.append("None")
                 for b2 in bikeList2:
-                    bikeRst2.append(str(b2))
-                rst = {"bikeLocation": bikeRst, "NeedRepairedBike": bikeRst2}
+                    bikeRst2.append(f" Bike {b2.bikeId} at Location {b2.curLocId.desc}")
+                rst = {"AllBikesLocation": bikeRst, "DefectiveBikesLocation": bikeRst2}
                 return JsonResponse({"result": rst})
             elif operation == "balance":
                 # 动态移车
@@ -92,7 +96,6 @@ class OperApi(View):
                     Record,
                     columns=[
                         "recordId",
-                        "bikeID",
                         "beginTime",
                         "endTime",
                         "beginLocId",
@@ -101,7 +104,13 @@ class OperApi(View):
                     typeOfData="DB",
                 )
                 balanceRst = sba.makeDecisions()
+                if len(balanceRst)<2:
+                    balanceRst = "not enough records for analysis"
                 return JsonResponse({"result": balanceRst})
+        except Bike.DoesNotExist:
+            return JsonResponse({"result": "Bike Not Exists"})
+        except Location.DoesNotExist:
+            return JsonResponse({"result": "Location Not Exists"})
         except Exception:
             return JsonResponse({"error": "error"})
 
@@ -127,10 +136,10 @@ class CustApi(View):
             rst = "Succeed!"
             if operation == "rent":
                 # bike
-                locId = Bike.objects.get(bikeId=bID).curLocId.locId
+                locDesc = Bike.objects.get(bikeId=bID).curLocId.desc
                 bObj = Bike.objects.get(bikeId=bID)
-                if bObj.availStatus == False:
-                    rst = "Fail!"
+                if bObj.availStatus == False or bObj.defectStatus == True:
+                    rst = "Fail! Bike Not Available"
                 else:
                     bObj.availStatus = False
                     bObj.save()
@@ -140,20 +149,21 @@ class CustApi(View):
                 now = datetime.datetime.utcnow()
                 # record
                 Record.objects.create(
-                    userID=uObj, bikeID=bObj, beginTime=now, beginLocId=locId
+                    userID=uObj, bikeID=bObj, beginTime=now, beginLocId=locDesc
                 )
             elif operation == "back":
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.availStatus == True:
-                    rst = "Fail!"
+                    rst = "Fail! Wrong Bike or Location"
                 else:
                     bObj.availStatus = True
                     bObj.save()
                 # user
                 uObj = User.objects.get(userId=uID)
                 # record
-                r = Record.objects.get(userID=uObj, bikeID=bObj)
+                r = Record.objects.get(userID=uObj, bikeID=bObj,finishedFlag=False)
+                r.finishedFlag = True
                 r.endTime = datetime.datetime.utcnow()
                 r.endLocId = loc
                 r.save()
@@ -173,13 +183,23 @@ class CustApi(View):
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.defectStatus == True:
-                    rst = "Fail!"
+                    rst = "Fail! Bike already reported for repair"
                 else:
                     bObj.defectStatus = True
                     bObj.save()
                 # user
                 uObj = User.objects.get(userId=uID)
             return JsonResponse({"result": rst})
+        except User.DoesNotExist:
+            return JsonResponse({"result": "User Not Exists"})
+        except Record.DoesNotExist:
+            return JsonResponse({"result": "Record Not Exists"})
+        except Bike.DoesNotExist:
+            return JsonResponse({"result": "Bike Not Exists"})
+        except Location.DoesNotExist:
+            return JsonResponse({"result": "Location Not Exists"})
+        except IndexError:
+            return JsonResponse({"result": "Service Not open, No Manager Account now"})
         except Exception:
             return JsonResponse({"error": "error"})
 
@@ -208,6 +228,8 @@ class VerifyApi(View):
                 User.objects.create(name=name, password=pwd, userClass=usercls)
                 user = User.objects.get(name=name, password=pwd, userClass=usercls)
             return JsonResponse({"result": [user.userId, user.userClass]})
+        except User.DoesNotExist:
+            return JsonResponse({"error": "error", "reason": "User Not Exists or Wrong password or Wrong User Class"})
         except Exception:
             return JsonResponse({"error": "error"})
 
