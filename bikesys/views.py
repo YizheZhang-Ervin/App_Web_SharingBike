@@ -189,7 +189,7 @@ class CustApi(View):
                 locObj = Location.objects.get(desc=locDesc)
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.availStatus == False or bObj.defectStatus == True:
-                    rst = "Fail! Bike Not Available"
+                    return JsonResponse({"result": "Fail! Bike Not Available"})
                 else:
                     bObj.availStatus = False
                     bObj.save()
