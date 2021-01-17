@@ -1,8 +1,7 @@
 # SharingBike  
 ## Run Django  
-pip install requirements.txt  
-cd SharingBike  
-cd ezsystem  
+pip install -r requirements.txt  
+cd SharingBike   
 python manage.py runserver  
 Browser: http://127.0.0.1:8000/  
   

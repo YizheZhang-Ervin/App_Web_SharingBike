@@ -1,52 +1,40 @@
-.bg{
-    background-image: url('bikebg.jpg');
-    background-size: cover;
+*{
+    margin:0;
 }
 
-.centerC{
+.canSee{
+    display: block;
+}
+
+.notSee{
+    display: none;
+}
+
+.center{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.vertical{
     flex-direction: column;
 }
 
-.centerR{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-}
-
 .fullscreen{
-    width:100vw;
-    height:100vh;
+    width: 100vw;
+    height: 100vh;
 }
 
-.inlineDisplay{
-    display: inline;
-}
-
-.paddingAll{
-    padding: 10px;
+.bigfont{
+    font: larger bold;
 }
 
 .btn{
-    background-color: rgba(0,0,0,0.7);
-    border-radius: 20%;
-    color: white;
-    font-size: large;
-    font-weight: bold;
-    width: 150px;
+    background-color: rgba(0,0,0,0.8);
+    color:rgba(255,255,255,0.8);
+    font: larger bold;
 }
 
-.textInput{
-    background-color: rgba(0,0,0,0.2);
-    color: white;
-    font-size: large;
-    font-weight: bold;
-}
-
-.noUnderLine{
-    text-decoration: none;
-    color: white;
+input,h1{
+    margin: 10px;
 }

@@ -1,18 +1,12 @@
 from django.urls import path
 
-from . import views
+from bikesys.views import VerifyApi,CustApi,home,OperApi,MgtApi
 
 app_name = "bikesys"
 urlpatterns = [
-    path('', views.login, name='login'),
-    path('register/', views.register, name='register'),
-    path("loginVerify/",views.loginVerify, name="lVerify"),
-    path("registerVerify/",views.registerVerify, name="rVerify"),
-    path('<int:pk>/', views.userView.as_view(), name='users'),
-    path("rent/",views.rent, name="rent"),
-    path("back/",views.back, name="back"),
-    path("sRepair/",views.submitRepair, name="sRepair"),
-    path("repair/",views.repair, name="repair"),
-    path("bikeOps/",views.bikeOps,name="bikeOps"),
-    path("visual/",views.visual,name="visual"),
+    path('', home, name='home'),
+    path('api/verify/', VerifyApi.as_view(), name='verify'),
+    path('api/cust/', CustApi.as_view(), name='cust'),
+    path('api/oper/', OperApi.as_view(), name='oper'),
+    path('api/mgt/', MgtApi.as_view(), name='mgt'),
 ]
