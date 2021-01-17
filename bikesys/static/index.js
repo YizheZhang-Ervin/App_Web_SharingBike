@@ -10,12 +10,14 @@ function mgt(operation){
         .then((response) => {
             if (response.data.error == "error") {
                 console.log('Error: Server')
+                displayNotification("Error: Server");
             } else {
                 let rst = response.data.result;
                 displayNotification(rst);
             }
         }, function (err) {
             console.log("Error: Client", err);
+            displayNotification("Error: Client");
     })
 }
 
@@ -29,12 +31,14 @@ function oper(operation){
         .then((response) => {
             if (response.data.error == "error") {
                 console.log('Error: Server')
+                displayNotification("Error: Server");
             } else {
                 let rst = response.data.result;
                 displayNotification(rst);
             }
         }, function (err) {
             console.log("Error: Client", err);
+            displayNotification("Error: Client");
     })
 }
 
@@ -60,12 +64,14 @@ function cust(operation){
         .then((response) => {
             if (response.data.error == "error") {
                 console.log('Error: Server')
+                displayNotification('Error: Server');
             } else {
                 let rst = response.data.result;
                 displayNotification(rst);
             }
         }, function (err) {
             console.log("Error: Client", err);
+            displayNotification("Error: Client");
     })
 }
 
@@ -88,7 +94,7 @@ function verify(operation) {
         .then((response) => {
             if (response.data.error == "error") {
                 console.log('Error: Server')
-                let rst = "Error: no this login account or existed register username";
+                let rst = response.data.reason;
                 displayNotification(rst);
             } else {
                 currentUser = response.data.result;
@@ -110,6 +116,7 @@ function verify(operation) {
             }
         }, function (err) {
             console.log("Error: Client", err);
+            displayNotification("Error: Client");
         })
 }
 

@@ -1,7 +1,13 @@
+/* 全局样式 */
 *{
     margin:0;
 }
 
+input,h1{
+    margin: 10px;    
+}
+
+/* 显示控制样式 */
 .canSee{
     display: block;
 }
@@ -10,6 +16,7 @@
     display: none;
 }
 
+/* 类样式 */
 .bgimg{
     background-image: url("bikebg.jpg");
     background-size: cover;
@@ -31,6 +38,18 @@
     height: 100vh;
 }
 
+.h25{
+    height:25vh;
+}
+
+.w60{
+    width: 60vw;
+}
+
+.w80{
+    width: 80vw;
+}
+
 .bigfont{
     font: larger bold;
 }
@@ -41,6 +60,12 @@
     font: larger bold;
 }
 
-input,h1{
-    margin: 10px;
+.text{
+    font: larger bold!important;
+}
+
+.card{
+    box-shadow: 10px 10px 5px #888888;
+    -moz-box-shadow: 10px 10px 5px #888888;
+    border: 2px dashed whitesmoke;
 }

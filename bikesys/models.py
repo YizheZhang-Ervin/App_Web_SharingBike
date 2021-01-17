@@ -16,7 +16,7 @@ class User(models.Model):
     password = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"userID:{str(self.userId)}, user Class:{str(self.userClass)}"
+        return f"ID({str(self.userId)}), Name({self.name}), Class({str(self.userClass)}), Balance({str(self.balance)})"
 
 class Location(models.Model):
     # 地点ID
@@ -25,7 +25,7 @@ class Location(models.Model):
     desc = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"Location ID:{str(self.locId)}, Description:{str(self.desc)}"
+        return f"ID({str(self.locId)}), Description({str(self.desc)})"
 
 class Bike(models.Model):
     # 车ID
@@ -38,7 +38,7 @@ class Bike(models.Model):
     defectStatus = models.BooleanField()
 
     def __str__(self):
-        return f"bikeID:{str(self.bikeId)}, current Location ID:{str(self.curLocId)}"
+        return f"ID({str(self.bikeId)}), Location({str(self.curLocId.desc)}), available({self.availStatus}), defect({self.defectStatus})"
 
 class Record(models.Model):
     # 记录ID
@@ -55,8 +55,10 @@ class Record(models.Model):
     beginLocId = models.CharField(max_length=200)
     # 结束地id
     endLocId = models.CharField(max_length=200,null = True)
+    # 标记结束
+    finishedFlag = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"RecordID:{str(self.recordId)}, userID:{str(self.userID)}, bikeID:{str(self.bikeID)}"
+        return f"RecordID({str(self.recordId)}), userName({str(self.userID.name)}), bikeID({str(self.bikeID.bikeId)}), finishedFlag({self.finishedFlag})"
          
     
