@@ -9,6 +9,7 @@ import pytz
 
 utc = pytz.UTC
 
+
 class SelectApi(View):
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
@@ -51,12 +52,31 @@ class MgtApi(View):
             jsonDict = eval(request.body)
             uID = eval(jsonDict["uid"])
             operation = eval(jsonDict["operation"])
-            rst = ""
             if operation == "report":
-                rst = "wait for development"
+                # get data
+                tllis = []
+                counts = {}
+                data = {"time":[],"location":[],"bikeNum":[]}
+                recordSet = Record.objects.all()
+                for i in recordSet:
+                    if (
+                        i.beginTime != None
+                        and i.endTime != None
+                        and i.beginLocId != None
+                        and i.endLocId != None
+                    ):
+                        tllis.append((i.beginTime.hour,i.beginLocId))
+                        tllis.append((i.endTime.hour,i.endLocId))
+                for i in tllis:
+                    counts[(i[0],i[1])] = counts.get((i[0],i[1]),0)+1
+                for i,v in counts.items():
+                    data['time'].append(i[0])
+                    data['location'].append(i[1])
+                    data['bikeNum'].append(v)
+                return JsonResponse({"result": data})
             else:
                 rst = "wait for development"
-            return JsonResponse({"result": rst})
+                return JsonResponse({"result": rst})
         except Exception:
             return JsonResponse({"error": "error"})
 
@@ -95,7 +115,7 @@ class OperApi(View):
                 balanceRst = []
                 # 所有车位置
                 bikeList = Bike.objects.all()
-                if len(bikeList)==0:
+                if len(bikeList) == 0:
                     bikeRst.append("None")
                 for b in bikeList:
                     locID = b.curLocId.locId
@@ -103,7 +123,7 @@ class OperApi(View):
                     bikeRst.append(f" Bike {b.bikeId} at Location {locDesc}")
                 # 所有待修的车
                 bikeList2 = Bike.objects.filter(defectStatus=True)
-                if len(bikeList2)==0:
+                if len(bikeList2) == 0:
                     bikeRst2.append("None")
                 for b2 in bikeList2:
                     bikeRst2.append(f" Bike {b2.bikeId} at Location {b2.curLocId.desc}")
@@ -129,7 +149,7 @@ class OperApi(View):
                     typeOfData="DB",
                 )
                 balanceRst = sba.makeDecisions()
-                if len(balanceRst)<2:
+                if len(balanceRst) < 2:
                     balanceRst = "not enough records for analysis"
                 return JsonResponse({"result": balanceRst})
         except Bike.DoesNotExist:
@@ -164,7 +184,7 @@ class CustApi(View):
             uID = eval(jsonDict["uid"])
             rst = "Succeed!"
             if operation == "rent":
-                # bike & location  
+                # bike & location
                 locDesc = Bike.objects.get(bikeId=bID).curLocId.desc
                 locObj = Location.objects.get(desc=locDesc)
                 bObj = Bike.objects.get(bikeId=bID)
@@ -179,10 +199,14 @@ class CustApi(View):
                 now = datetime.datetime.utcnow()
                 # record
                 Record.objects.create(
-                    userID=uObj, bikeID=bObj, beginTime=now, beginLocId=locDesc, beginLoc=locObj
+                    userID=uObj,
+                    bikeID=bObj,
+                    beginTime=now,
+                    beginLocId=locDesc,
+                    beginLoc=locObj,
                 )
             elif operation == "back":
-                if loc=="":
+                if loc == "":
                     return JsonResponse({"result": "Fail! Please choose location"})
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
@@ -196,7 +220,7 @@ class CustApi(View):
                 # user
                 uObj = User.objects.get(userId=uID)
                 # record
-                r = Record.objects.get(userID=uObj, bikeID=bObj,finishedFlag=False)
+                r = Record.objects.get(userID=uObj, bikeID=bObj, finishedFlag=False)
                 r.finishedFlag = True
                 r.endTime = datetime.datetime.utcnow()
                 r.endLocId = loc
@@ -218,7 +242,9 @@ class CustApi(View):
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.defectStatus == True:
-                    return JsonResponse({"result": "Fail! Bike already reported for repair"})
+                    return JsonResponse(
+                        {"result": "Fail! Bike already reported for repair"}
+                    )
                 else:
                     bObj.defectStatus = True
                     bObj.save()
@@ -259,8 +285,10 @@ class VerifyApi(View):
             pwd = eval(jsonDict["pwd"])
             usercls = eval(jsonDict["cls"])
             operation = eval(jsonDict["operation"])
-            if name=="" or pwd=="":
-                return JsonResponse({"error":"error","reason":"Please enter name or password"})
+            if name == "" or pwd == "":
+                return JsonResponse(
+                    {"error": "error", "reason": "Please enter name or password"}
+                )
             if operation == "login":
                 user = User.objects.get(name=name, password=pwd, userClass=usercls)
             elif operation == "register":
@@ -268,9 +296,16 @@ class VerifyApi(View):
                 user = User.objects.get(name=name, password=pwd, userClass=usercls)
             return JsonResponse({"result": [user.userId, user.userClass]})
         except User.DoesNotExist:
-            return JsonResponse({"error": "error", "reason": "User Not Exists or Wrong password or Wrong User Class"})
+            return JsonResponse(
+                {
+                    "error": "error",
+                    "reason": "User Not Exists or Wrong password or Wrong User Class",
+                }
+            )
         except Exception:
-            return JsonResponse({"error": "error"})
+            return JsonResponse(
+                {"error": "error", "reason": "Duplicate name or other Type in errors"}
+            )
 
 
 def home(request):

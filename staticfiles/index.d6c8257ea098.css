@@ -1,0 +1,108 @@
+/* 全局样式 */
+*{
+    margin:0;
+}
+
+input,h1,hr{
+    margin: 10px;    
+}
+
+hr{
+    width: 80%;
+    color: white;
+    border: white solid 1px;
+}
+
+/* 显示控制样式 */
+@media (min-width:800px) and (min-height:400px){
+    #normalpart{
+        display: block;
+    }
+    #smallpart{
+        display: none;
+    }
+}
+
+@media(max-width:800px) and (max-height:400px){
+    #normalpart{
+        display: none;
+    }
+    #smallpart{
+        display: block;
+    }
+}
+
+.canSee{
+    display: block;
+}
+
+.notSee{
+    display: none;
+}
+
+/* 类样式 */
+.bgimg{
+    background-image: url("bikebg.7e937a7ea43b.jpg");
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical{
+    flex-direction: column;
+}
+
+.fullscreen{
+    width: 100vw;
+    height: 100vh;
+}
+
+.h25{
+    height:25vh;
+}
+
+.w60{
+    width: 60vw;
+}
+
+.w80{
+    width: 80vw;
+}
+
+.bigfont{
+    font: larger bold;
+}
+
+.btn{
+    background-color: rgba(0,0,0,0.8);
+    color:rgba(255,255,255,0.8);
+    font: larger bold;
+}
+
+.text{
+    font: larger bold!important;
+}
+
+.card{
+    box-shadow: 10px 10px 5px #888888;
+    -moz-box-shadow: 10px 10px 5px #888888;
+    border: 2px dashed whitesmoke;
+}
+
+.bgtransblack{
+    background-color: rgba(0,0,0,0.5);
+    color:gold;
+    text-align: center;
+}
+
+.audioplay{
+    position: absolute;
+    top:0;
+    right:0;
+    background-image: url("audioplay.5fbb7e38921a.png");
+}

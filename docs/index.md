@@ -93,5 +93,4 @@ heroku run python xxx
 6. Analysis: only analyze time period, not take consider in different days effect
 
 ## What's next?
-1. Manager Interface: report function 
-2. database model: picture
+1. database model: picture

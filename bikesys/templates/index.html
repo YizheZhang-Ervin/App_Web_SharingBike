@@ -11,6 +11,9 @@
     </head>
 
     <body class="bgimg fullscreen">
+        <!-- bgm -->
+        <audio id="audio" loop src="{% static 'bgm.mp3' %}" autoplay></audio>
+        <input type="button" class="audioplay icon" onclick="playAudio()">
         <!-- small screen part -->
         <div id="smallpart">
             <h2 class="center fullscreen bgtransblack">This is the system for PC Browser, please use laptop or larger screen device!</h2>
@@ -105,17 +108,20 @@
             <div id="managerNode" class="notSee">
                 <div class="center vertical">
                     <section class="bigfont card w80">
-                        <section>
+                        <section class="h10">
                             <h1>Data Report</h1>
                             <input type="button" value="Generate" class="btn" onclick="mgt('report')">
                             <hr />
+                        </section>
+                        <section id="charts">
                         </section>
                     </section>
                 </div>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/axios@0.21.0/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
         <script src="{% static 'index.js' %}"></script>
     </body>
 
