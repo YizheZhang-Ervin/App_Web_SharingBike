@@ -9,6 +9,31 @@ import pytz
 
 utc = pytz.UTC
 
+class SelectApi(View):
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(
+                self, request.method.lower(), self.http_method_not_allowed
+            )
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
+
+    def post(self, request):
+        try:
+            jsonDict = eval(request.body)
+            uID = eval(jsonDict["uid"])
+            operation = eval(jsonDict["operation"])
+            rst = []
+            if operation == "locations":
+                loclist = Location.objects.all()
+                for ll in loclist:
+                    rst.append(ll.desc)
+            return JsonResponse({"result": rst})
+        except Exception:
+            return JsonResponse({"error": "error"})
+
 
 class MgtApi(View):
     @csrf_exempt
@@ -111,6 +136,10 @@ class OperApi(View):
             return JsonResponse({"result": "Bike Not Exists"})
         except Location.DoesNotExist:
             return JsonResponse({"result": "Location Not Exists"})
+        except Record.DoesNotExist:
+            return JsonResponse({"result": "Record Not Exists"})
+        except ValueError:
+            return JsonResponse({"result": "Please enter correct content"})
         except Exception:
             return JsonResponse({"error": "error"})
 
@@ -135,8 +164,9 @@ class CustApi(View):
             uID = eval(jsonDict["uid"])
             rst = "Succeed!"
             if operation == "rent":
-                # bike
+                # bike & location  
                 locDesc = Bike.objects.get(bikeId=bID).curLocId.desc
+                locObj = Location.objects.get(desc=locDesc)
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.availStatus == False or bObj.defectStatus == True:
                     rst = "Fail! Bike Not Available"
@@ -149,16 +179,20 @@ class CustApi(View):
                 now = datetime.datetime.utcnow()
                 # record
                 Record.objects.create(
-                    userID=uObj, bikeID=bObj, beginTime=now, beginLocId=locDesc
+                    userID=uObj, bikeID=bObj, beginTime=now, beginLocId=locDesc, beginLoc=locObj
                 )
             elif operation == "back":
+                if loc=="":
+                    return JsonResponse({"result": "Fail! Please choose location"})
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.availStatus == True:
-                    rst = "Fail! Wrong Bike or Location"
+                    return JsonResponse({"result": "Fail! Wrong Bike or Location"})
                 else:
                     bObj.availStatus = True
                     bObj.save()
+                # location
+                locObj = Location.objects.get(desc=loc)
                 # user
                 uObj = User.objects.get(userId=uID)
                 # record
@@ -166,6 +200,7 @@ class CustApi(View):
                 r.finishedFlag = True
                 r.endTime = datetime.datetime.utcnow()
                 r.endLocId = loc
+                r.endLoc = locObj
                 r.save()
                 # 付钱
                 # price每小时的价格，time使用时间，pay总金额
@@ -183,7 +218,7 @@ class CustApi(View):
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
                 if bObj.defectStatus == True:
-                    rst = "Fail! Bike already reported for repair"
+                    return JsonResponse({"result": "Fail! Bike already reported for repair"})
                 else:
                     bObj.defectStatus = True
                     bObj.save()
@@ -200,6 +235,8 @@ class CustApi(View):
             return JsonResponse({"result": "Location Not Exists"})
         except IndexError:
             return JsonResponse({"result": "Service Not open, No Manager Account now"})
+        except ValueError:
+            return JsonResponse({"result": "Please enter correct content"})
         except Exception:
             return JsonResponse({"error": "error"})
 
@@ -222,6 +259,8 @@ class VerifyApi(View):
             pwd = eval(jsonDict["pwd"])
             usercls = eval(jsonDict["cls"])
             operation = eval(jsonDict["operation"])
+            if name=="" or pwd=="":
+                return JsonResponse({"error":"error","reason":"Please enter name or password"})
             if operation == "login":
                 user = User.objects.get(name=name, password=pwd, userClass=usercls)
             elif operation == "register":

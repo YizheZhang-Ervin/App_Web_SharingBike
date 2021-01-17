@@ -46,14 +46,14 @@ function cust(operation){
     let bikeid1 = doc.getElementById("bikeid1").value;
     let bikeid2 = doc.getElementById("bikeid2").value;
     let bikeid3 = doc.getElementById("bikeid3").value;
-    let loc = doc.getElementById("loc").value || 0;
+    let loc = doc.getElementById("loc").value;
     let bikeid;
     if(operation=="rent"){
-        bikeid = bikeid1
+        bikeid = bikeid1;
     }else if(operation=="back"){
-        bikeid = bikeid2
+        bikeid = bikeid2;
     }else if(operation=="report"){
-        bikeid = bikeid3
+        bikeid = bikeid3;
     }
     axios.post(`/api/cust/`, {
         "bikeid": JSON.stringify(bikeid),
@@ -118,6 +118,35 @@ function verify(operation) {
             console.log("Error: Client", err);
             displayNotification("Error: Client");
         })
+}
+
+function getSelections(operation){
+    let datalist = doc.getElementById("locList");
+    axios.post(`/api/select/`, {
+        "operation":JSON.stringify(operation),
+        "uid":JSON.stringify(currentUser[0])
+    })
+        .then((response) => {
+            if (response.data.error == "error") {
+                console.log('Error: Server')
+                displayNotification("Error: Server");
+            } else {
+                if(operation=="locations"){
+                    let rst = response.data.result;
+                    console.log(datalist.childNodes);
+                    if(datalist.childNodes.length<2){
+                        for(let i of rst){
+                            let optionNode = doc.createElement("option");
+                            optionNode.innerText = i;
+                            datalist.appendChild(optionNode);
+                        }
+                    }
+                }
+            }
+        }, function (err) {
+            console.log("Error: Client", err);
+            displayNotification("Error: Client");
+    })
 }
 
 function changeDisplay(seeIdArr,notseeIdArr){

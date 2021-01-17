@@ -1,6 +1,6 @@
 from django.urls import path
 
-from bikesys.views import VerifyApi,CustApi,home,OperApi,MgtApi
+from bikesys.views import VerifyApi,CustApi,home,OperApi,MgtApi,SelectApi
 
 app_name = "bikesys"
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('api/cust/', CustApi.as_view(), name='cust'),
     path('api/oper/', OperApi.as_view(), name='oper'),
     path('api/mgt/', MgtApi.as_view(), name='mgt'),
+    path('api/select/', SelectApi.as_view(), name='select'),
 ]

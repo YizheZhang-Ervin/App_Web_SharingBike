@@ -3,11 +3,35 @@
     margin:0;
 }
 
-input,h1{
+input,h1,hr{
     margin: 10px;    
 }
 
+hr{
+    width: 80%;
+    color: white;
+    border: white solid 1px;
+}
+
 /* 显示控制样式 */
+@media (min-width:800px) and (min-height:400px){
+    #normalpart{
+        display: block;
+    }
+    #smallpart{
+        display: none;
+    }
+}
+
+@media(max-width:800px) and (max-height:400px){
+    #normalpart{
+        display: none;
+    }
+    #smallpart{
+        display: block;
+    }
+}
+
 .canSee{
     display: block;
 }
@@ -68,4 +92,10 @@ input,h1{
     box-shadow: 10px 10px 5px #888888;
     -moz-box-shadow: 10px 10px 5px #888888;
     border: 2px dashed whitesmoke;
+}
+
+.bgtransblack{
+    background-color: rgba(0,0,0,0.5);
+    color:gold;
+    text-align: center;
 }

@@ -22,7 +22,7 @@ class Location(models.Model):
     # 地点ID
     locId = models.AutoField(primary_key=True)
     # 地点描述
-    desc = models.CharField(max_length=200)
+    desc = models.CharField(max_length=200,unique=True)
 
     def __str__(self):
         return f"ID({str(self.locId)}), Description({str(self.desc)})"
@@ -48,13 +48,17 @@ class Record(models.Model):
     # 车ID
     bikeID = models.ForeignKey(Bike, on_delete=models.CASCADE)
     # 开始时间
-    beginTime = models.DateTimeField('date published')
+    beginTime = models.DateTimeField('begin time')
     # 结束时间
     endTime = models.DateTimeField(null = True)
-    # 触发地id
+    # 出发地id
     beginLocId = models.CharField(max_length=200)
     # 结束地id
     endLocId = models.CharField(max_length=200,null = True)
+    # 出发地外键
+    beginLoc = models.ForeignKey(Location, on_delete=models.CASCADE,related_name='beginLoc')
+    # 结束地外键
+    endLoc = models.ForeignKey(Location, on_delete=models.CASCADE,related_name='endLoc',null = True)
     # 标记结束
     finishedFlag = models.BooleanField(default=False)
 
