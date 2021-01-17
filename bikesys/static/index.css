@@ -10,6 +10,12 @@
     display: none;
 }
 
+.bgimg{
+    background-image: url("bikebg.jpg");
+    background-size: cover;
+    overflow-x: hidden;
+}
+
 .center{
     display: flex;
     justify-content: center;
