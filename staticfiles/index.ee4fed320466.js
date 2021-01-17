@@ -225,13 +225,12 @@ function plot(data){
     myChart.setOption(option);
 }
 
-function initAudio(){
-    let audio = doc.getElementById("audio");
-    if(audio.paused){
-        audio.paused=false;
-        audio.play();
-    }
-    window.removeEventListener("click",initAudio);
-}
-
-window.addEventListener("click",initAudio);
+window.onload = function(){
+    setTimeout(function(){
+        let audio = doc.getElementById("audio");
+        if(audio.paused){
+            audio.paused=false;
+            audio.play();
+        }
+    },5000);
+};

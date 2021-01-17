@@ -4,7 +4,7 @@ class User(models.Model):
     # 用户ID
     userId = models.AutoField(primary_key=True)
     # 账户余额
-    balance = models.DecimalField( max_digits=4, decimal_places=2,default=99.99)
+    balance = models.DecimalField( max_digits=8, decimal_places=2,default=99.99)
     # 用户身份类型
     userClass = models.CharField(max_length=20,
     choices=(

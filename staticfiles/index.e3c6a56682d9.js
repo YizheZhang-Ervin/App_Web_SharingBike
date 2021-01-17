@@ -225,13 +225,9 @@ function plot(data){
     myChart.setOption(option);
 }
 
-function initAudio(){
+window.onload = function(){
     let audio = doc.getElementById("audio");
     if(audio.paused){
-        audio.paused=false;
         audio.play();
     }
-    window.removeEventListener("click",initAudio);
-}
-
-window.addEventListener("click",initAudio);
+};

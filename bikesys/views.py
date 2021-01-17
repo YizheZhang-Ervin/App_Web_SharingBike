@@ -236,11 +236,15 @@ class CustApi(View):
                 uObj.save()
                 # 管理员收钱
                 manager = User.objects.filter(userClass="manager")[0]
-                manager.balance = float(uObj.balance) + pay
+                manager.balance = float(manager.balance) + pay
                 manager.save()
             elif operation == "report":
                 # bike
                 bObj = Bike.objects.get(bikeId=bID)
+                if bObj.availStatus == False:
+                    return JsonResponse(
+                        {"result": "Fail! Bike is in service, can't report for repair"}
+                    )
                 if bObj.defectStatus == True:
                     return JsonResponse(
                         {"result": "Fail! Bike already reported for repair"}
