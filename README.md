@@ -18,4 +18,8 @@ python manage.py migrate
 python manage.py collectstatic  
   
 ## Backend Management  
-python manage.py createsuperuser(name:ez,password:ez)  
+python manage.py createsuperuser (name:ez,password:ez)  
+
+# heroku deploy  
+add gunicorn,django_heroku requirements  
+heroku run python xxx  
