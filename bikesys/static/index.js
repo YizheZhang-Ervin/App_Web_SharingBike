@@ -1,5 +1,5 @@
 let doc = document;
-let body = document.getElementsByTagName('body')[0];
+let normalpart = document.getElementById('normalpart')[0];
 let currentUser;
 
 function mgt(operation){
@@ -157,7 +157,7 @@ function changeDisplay(seeIdArr,notseeIdArr){
     for(let i of notseeIdArr){
         let node2 = doc.getElementById(i);
         node2.className = "notSee";
-        body.removeChild(node2);
+        normalpart.removeChild(node2);
     }
 
 }
