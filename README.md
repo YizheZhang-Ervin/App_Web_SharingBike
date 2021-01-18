@@ -1,25 +1,30 @@
 # SharingBike  
-## Run Django  
+## User: First Time Run Django  
+### Intall Dependency  
 pip install -r requirements.txt  
-cd SharingBike   
+   
+### Database & static files  
+cd SharingBike  
+python manage.py collectstatic  
+python manage.py makemigrations bikesys  
+python manage.py migrate  
+  
+### Backend Management  
+python manage.py createsuperuser(name:ez,password:ez)  
 python manage.py runserver  
 Browser: http://127.0.0.1:8000/  
   
-## Commands  
-pip freeze > requirements.txt  
-  
-## Start project  
+## Developer: Coding  
+### Developer Start New Project  
 django-admin startproject xxSite  
 python manage.py startapp xxApp  
   
-## Database  
-python manage.py makemigrations xxApp  
-python manage.py migrate  
-python manage.py collectstatic  
+### Developer Output Python Dependency
+Virtual Env libs: pip freeze > requirements.txt  
+Dependency libs: pipreqs ./  
   
-## Backend Management  
-python manage.py createsuperuser (name:ez,password:ez)  
-
-# heroku deploy  
-add gunicorn,django_heroku requirements  
+### Developer heroku deploy  
+add gunicorn requirements  
+delete version nums  
 heroku run python xxx  
+  

@@ -267,8 +267,8 @@ class CustApi(View):
             return JsonResponse({"result": "Service Not open, No Manager Account now"})
         except ValueError:
             return JsonResponse({"result": "Please enter correct content"})
-        # except Exception:
-        #     return JsonResponse({"error": "error"})
+        except Exception:
+            return JsonResponse({"error": "error"})
 
 
 class VerifyApi(View):
