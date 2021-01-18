@@ -23,7 +23,16 @@ hr{
     }
 }
 
-@media(max-width:800px) and (max-height:400px){
+@media(max-width:800px){
+    #normalpart{
+        display: none;
+    }
+    #smallpart{
+        display: block;
+    }
+}
+
+@media (max-height:400px){
     #normalpart{
         display: none;
     }
