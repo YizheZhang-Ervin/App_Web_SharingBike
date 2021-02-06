@@ -1,0 +1,27 @@
+/* 显示控制样式 */
+@media (min-width:800px) and (min-height:400px){
+    #normalpart{
+        display: block;
+    }
+    #smallpart{
+        display: none;
+    }
+}
+
+@media(max-width:800px){
+    #normalpart{
+        display: none;
+    }
+    #smallpart{
+        display: block;
+    }
+}
+
+@media (max-height:400px){
+    #normalpart{
+        display: none;
+    }
+    #smallpart{
+        display: block;
+    }
+}
