@@ -22,10 +22,18 @@ python manage.py runserver
 create-react-app xxApp  
   
 ### modules  
-npm install antd --save  
-npm install axios --save  
-npm install --save react-router-dom  
+npm i react  
+npm i react-dom  
+npm i babel-standalone  
+npm i prop-types  
+npm i create-react-app -g  
+npm i pubsub-js  
+npm install antd  
 npm install @ant-design/icons  
+npm i json-server -g  
+npm install axios  
+npm install react-router-dom  
+npm i redux  
   
 ### other commands  
 npm start  
